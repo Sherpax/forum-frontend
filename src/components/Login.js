@@ -32,14 +32,15 @@ function Login(props) {
       email: dataEmailOrName,
       pass: password,
     };
-    const URL = process.env.REACT_APP_URL;
 
+    const URL = process.env.REACT_APP_URL;
+    
     axios
       .post(`${URL}/user/login`, userData)
       .then((res) => {
+        console.log(res.data);
         if (res.status === StatusCodes.OK) {
-          // console.log(res.data);
-          navigate("/home")
+          navigate("/home");
         }
       })
       .catch((error) => {
@@ -103,18 +104,17 @@ function Login(props) {
             Login
           </Button>
 
-         
-              <Typography variant="body1" paddingTop={5} paddingBottom={3} textAlign={"center"}>
-              Don't have an account? 
-              </Typography>
-            <Button sx={{ marginTop: -3 }} onClick={goSignUpPage}>
+          <Typography
+            variant="body1"
+            paddingTop={5}
+            paddingBottom={3}
+            textAlign={"center"}
+          >
+            Don't have an account?
+          </Typography>
+          <Button sx={{ marginTop: -3 }} onClick={goSignUpPage}>
             Sign Up
           </Button>
-           
-          
-
-          
-
         </Box>
       </form>
     </>

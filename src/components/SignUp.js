@@ -31,10 +31,12 @@ function SignUp() {
     axios.post(`${URL}/user/register`, datosUser)
     .then(res => {
       if(res.status === StatusCodes.OK){
+        //TODO: Redirect
         console.log(res);
       }
     })
     .catch(error => {
+      //TODO: Show error msg
       console.log(error.response.status);
     })
 
