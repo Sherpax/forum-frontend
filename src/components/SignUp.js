@@ -15,7 +15,7 @@ import {
 //! TODO: Ahora mismo no comprueba NADA
 
 function SignUp() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [datosUser, setDatosUser] = React.useState({
     email: "",
     pass: "",
@@ -28,37 +28,43 @@ function SignUp() {
 
   const sendData = (e) => {
     e.preventDefault();
+    const dataNotEmpty =
+      datosUser.email !== "" &&
+      datosUser.pass !== "" &&
+      datosUser.userName !== "";
 
-    const URL = process.env.REACT_APP_URL;
+    if (dataNotEmpty) {
+      const URL = process.env.REACT_APP_URL;
 
-    axios
-      .post(`${URL}/user/register`, datosUser)
-      .then((res) => {
-        if (res.status === StatusCodes.CREATED) {
-          navigate("/home")
-        }
-      })
-      .catch((error) => {
-        const responseStatus = error.response.status
-        const response = error.response
-        if (responseStatus === StatusCodes.EXPECTATION_FAILED) {
-          if(response.data['email'] !== undefined){
-            Swal.fire({
-              title: "Error!",
-              text: error.response.data.email,
-              icon: "error",
-              confirmButtonText: "OK",
-            });
-          }else if(response.data['username'] !== undefined){
-            Swal.fire({
-              title: "Error!",
-              text: error.response.data.username,
-              icon: "error",
-              confirmButtonText: "OK",
-            });
+      axios
+        .post(`${URL}/user/register`, datosUser)
+        .then((res) => {
+          if (res.status === StatusCodes.CREATED) {
+            navigate("/home");
           }
-        } 
-      });
+        })
+        .catch((error) => {
+          const responseStatus = error.response.status;
+          const response = error.response;
+          if (responseStatus === StatusCodes.EXPECTATION_FAILED) {
+            if (response.data["email"] !== undefined) {
+              Swal.fire({
+                title: "Error!",
+                text: error.response.data.email,
+                icon: "error",
+                confirmButtonText: "OK",
+              });
+            } else if (response.data["username"] !== undefined) {
+              Swal.fire({
+                title: "Error!",
+                text: error.response.data.username,
+                icon: "error",
+                confirmButtonText: "OK",
+              });
+            }
+          }
+        });
+    }
   };
 
   return (

@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import { Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MainThread from "./MainThread";
+import Swal from "sweetalert2";
 import axios from "axios";
 import {
   ReasonPhrases,
@@ -29,13 +30,23 @@ export default function Home() {
         }
       })
       .catch((error) => {
-        console.log(error.response.status);
+        Swal.fire({
+          title: "Error!",
+          text: "Tenemos problemas cargando los hilos",
+          icon: "error",
+          confirmButtonText: ":(",
+        }).then((isConfirm) => {
+          if(isConfirm){
+            //TODO
+            navigate("/")
+          }
+        })
       });
   }, []);
 
   if (isLoading) {
     console.log("cargando");
-    return <h2>Loading...</h2>;
+    return <Typography variant="h2" textAlign={"center"}>Loading threads...</Typography>;
   }
 
   const goThread = (e) => {
