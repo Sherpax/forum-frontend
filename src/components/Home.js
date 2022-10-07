@@ -13,8 +13,7 @@ import {
 } from "http-status-codes";
 
 export default function Home() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isLoading, setLoading] = React.useState(true);
   const [thread, setThreads] = React.useState([]);
 
@@ -36,22 +35,30 @@ export default function Home() {
           icon: "error",
           confirmButtonText: ":(",
         }).then((isConfirm) => {
-          if(isConfirm){
+          if (isConfirm) {
             //TODO
-            navigate("/")
+            navigate("/");
           }
-        })
+        });
       });
   }, []);
 
   if (isLoading) {
     console.log("cargando");
-    return <Typography variant="h2" textAlign={"center"}>Loading threads...</Typography>;
+    return (
+      <Typography variant="h2" textAlign={"center"}>
+        Loading threads...
+      </Typography>
+    );
   }
 
-  const goThread = (e) => {
-    const id = e.target.id
-    navigate(`thread/${id}`)
+  const goThread = (e, threadTitle) => {
+    const id = e.target.id;
+    navigate(`/thread/${id}`, {
+      state: {
+        threadName: threadTitle,
+      },
+    });
   };
 
   return (
@@ -72,7 +79,7 @@ export default function Home() {
             padding={7}
             borderRadius={5}
             flexWrap={"wrap"}
-            overflow={"clip"}
+            overflow={"hidden"}
             boxShadow={"4px 4px 10px #ccc"}
             sx={{
               ":hover": {
@@ -84,15 +91,12 @@ export default function Home() {
               sx={{ marginTop: -7 }}
               id={item.id}
               key={item.id}
-              onClick={goThread}
+              onClick={(e) => goThread(e, item.title)}
             >
               {item.title}
             </Button>
 
-            <Typography
-              variant="body1"
-              marginTop={0}
-            >
+            <Typography variant="body1" marginTop={0}>
               {item.description}
             </Typography>
           </Box>

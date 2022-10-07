@@ -10,6 +10,7 @@ import {
   getReasonPhrase,
   getStatusCode,
 } from "http-status-codes";
+import Cookies from 'universal-cookie';
 
 function Login(props) {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ function Login(props) {
       .then((res) => {
         console.log(res.data);
         if (res.status === StatusCodes.OK) {
+          const cookies = new Cookies();
+          cookies.set('user_id', res.data.id_user, { path: '/',  sameSite: true, httpOnly: false });
           navigate("/home");
         }
       })
@@ -51,6 +54,7 @@ function Login(props) {
   };
 
   const goSignUpPage = (e) => {
+
     navigate("/register");
   };
 
