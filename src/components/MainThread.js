@@ -74,6 +74,8 @@ function MainThread() {
     })();
   }, []);
 
+  const [refreshKey, setRefreshKey] = React.useState(0);
+
   React.useEffect(() => {
     axios
       .get(`${URL}/post/get/${threadId}`)
@@ -81,12 +83,13 @@ function MainThread() {
         if (res.status === StatusCodes.OK) {
           setPosts(res.data);
           setLoading(false);
+
         }
       })
       .catch((error) => {
         console.log(error.response.status);
       });
-  }, []);
+  }, [refreshKey]);
 
   // if (isLoading) {
   //   console.log("cargando posts");
@@ -99,6 +102,7 @@ function MainThread() {
       .post(`${URL}/post/add/${threadId}/${user_id}`, post)
       .then((res) => {
         if (res.status === StatusCodes.CREATED) {
+          setRefreshKey(oldKey => oldKey + 1)
           Swal.fire({
             title: "Success!",
             text: res.data.msg,
@@ -261,7 +265,7 @@ function MainThread() {
               id={item.id}
               key={item.id}
             >
-              {item.title}
+              {`${item.title}`}
             </Button>
  
             <Typography variant="body1" sx={{width: "100%", textAlign: "center"}}>
