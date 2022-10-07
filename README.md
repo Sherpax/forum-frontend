@@ -1,4 +1,4 @@
-Autores:
+## Autores:
 
-Manuel Santiago Vázquez Del Pino
-Gonzalo Cantos Gago
+- Manuel Santiago Vázquez Del Pino
+- Gonzalo Cantos Gago
